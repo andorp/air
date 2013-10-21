@@ -79,8 +79,8 @@ main = do
 
   logger <- createLogger
 
---  runNoLoggingT $ runResourceT $ withMySQLConn (configToConnectInfo config) $ runSqlConn $ do
-  runSqlite ":memory:" $ do
+  runNoLoggingT $ runResourceT $ withMySQLConn (configToConnectInfo config) $ runSqlConn $ do
+--  runSqlite ":memory:" $ do
 
     when (needsMigration args) $ do
       runMigration migrateAll
