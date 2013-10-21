@@ -1,0 +1,37 @@
+Name: Air
+Version: 0.1
+License: BSD3
+Description: Air (Alberlet Iranyitasi Rendszer) aka Flat Accounting System 
+Author: Andor Penzes <andor.penzes@gmail.com>
+Stability: Experimental
+Build-Type: Simple
+Cabal-Version: >= 1.2
+
+Executable AirTest
+  Main-is: Air/TestMain.hs
+  HS-Source-Dirs: src, test
+  Build-Depends:
+    base,
+    containers,
+    QuickCheck,
+    test-framework,
+    test-framework-hunit,
+    HUnit
+
+Executable Air
+  Main-is: Air/Main.hs
+  HS-Source-Dirs: src
+  Build-Depends:
+    attoparsec,
+    base,
+    bytestring,
+    containers,
+    fast-logger,
+    monad-logger,
+    persistent,
+    persistent-template,
+    persistent-sqlite,
+    persistent-mysql,
+    resourcet,
+    time,
+    transformers
