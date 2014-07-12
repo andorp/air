@@ -1,7 +1,7 @@
 module Air.Cli.Interpretation where
 
 import Database.Persist
-import System.Log.FastLogger (Logger)
+import System.Log.FastLogger (LoggerSet)
 
 import Air.Cli
 import qualified Air.Domain      as D
@@ -10,7 +10,7 @@ import qualified Air.Persistence as P
 -- The persistence layer interpretation of a given command. A branch is selected
 -- for the given command, and with the result, the continuation computation
 -- is called.
-interpretation :: (PersistQuery m) => Logger -> Command -> m Result
+interpretation :: (PersistQuery m) => LoggerSet -> Command -> m Result
 interpretation logger = commandCata
   createFlatmate
   deactivateFlatmate

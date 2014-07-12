@@ -9,7 +9,7 @@ import qualified Data.Map as Map
 
 import Database.Persist
 import System.IO (Handle, hGetLine)
-import System.Log.FastLogger (Logger)
+import System.Log.FastLogger (LoggerSet)
 
 import Air.Cli (Command(..), commandCata)
 import Air.Cli.Interpretation
@@ -18,7 +18,7 @@ import Air.Domain hiding (Payment)
 import Air.Test
 
 -- Print Read Eval Loop
-shell :: (PersistQuery m) => Logger -> Handle -> m ()
+shell :: (PersistQuery m) => LoggerSet -> Handle -> m ()
 shell logger handler = do
   context <- storedContext
   printContext context

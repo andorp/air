@@ -123,7 +123,7 @@ flatmateBills = D.userCata $ \user -> do
   let billIds = nub . map (billAttendeeBillId . entityVal) $ billAttendees
   forM billIds (liftM billBill . getJust)
 
-payBill :: PersistQuery m => Logger -> String -> Rational -> m ()
+payBill :: PersistQuery m => LoggerSet -> String -> Rational -> m ()
 payBill logger name amount = do
   bill <- loadBill name
   let p = D.billToPayment amount bill
@@ -180,7 +180,7 @@ userBalance = D.userCata $ \u -> do
   [b] <- selectList [ BalanceUserId ==. (entityKey user) ] []
   return . D.Balance . balanceBalance . entityVal $ b
 
-deposit :: PersistQuery m => Logger -> D.User -> D.Deposit -> m ()
+deposit :: PersistQuery m => LoggerSet -> D.User -> D.Deposit -> m ()
 deposit logger u d = do
   balance <- loadBalance
   updateBalance (D.deposit u d balance)
@@ -194,7 +194,7 @@ deposit logger u d = do
       insert deposit
       return ()
 
-logBalance :: PersistQuery m => Logger -> m ()
+logBalance :: PersistQuery m => LoggerSet -> m ()
 logBalance logger = do
   b <- loadBalance
   let (a,f) = D.pairMap L.account L.flatBalance b

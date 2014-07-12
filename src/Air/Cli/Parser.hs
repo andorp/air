@@ -157,14 +157,6 @@ parserTests = [
            (Right (CreateFlatmate "user" "Bob User"))
            "Parser Test: Create Flatmate"
 
-  , Equals (parseCommand "create flatmate user árvíztűrő tükörfúrógép")
-           (Right (CreateFlatmate "user" "árvíztűrő tükörfúrógép"))
-           "Parser Test: Create Flatmate accented family name"
-
-  , Equals (parseCommand "create flatmate user ÁrvÍztŰrŐ tÜkÖrfÚrÓgÉp")
-           (Right (CreateFlatmate "user" "ÁrvÍztŰrŐ tÜkÖrfÚrÓgÉp"))
-           "Parser Test: Create Flatmate accented family name"
-
   , Equals (parseCommand "deactivate flatmate user")
            (Right (DeactivateFlatmate "user"))
            "Parser Test: Deactivate Flatmate"

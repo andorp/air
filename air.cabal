@@ -31,7 +31,6 @@ Executable Air
     persistent,
     persistent-template,
     persistent-sqlite,
-    persistent-mysql,
     resourcet,
     time,
     transformers

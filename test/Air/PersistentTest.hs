@@ -16,7 +16,7 @@ import qualified Air.Domain      as Dom
 import qualified Air.Persistence as Per
 
 testEndToEndUser = testCase "Persistence: End to end test" $ runSqlite ":memory:" $ do
-  logger <- liftIO $ mkLogger True stdout
+  logger <- liftIO $ newStdoutLoggerSet defaultBufSize
   runMigration Per.migrateAll
   Per.initPersistence
   let andor     = Dom.User "andor"

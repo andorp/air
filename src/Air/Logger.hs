@@ -2,7 +2,7 @@
 module Air.Logger where
 
 import Prelude hiding (log)
-import Control.Monad (join)
+import Control.Monad (forM_, join)
 
 import Data.ByteString.Char8 (ByteString)
 import qualified Data.ByteString.Char8 as BS
@@ -36,25 +36,17 @@ flatBalance = flatBalanceCata $ \b -> toLogStr . join $ ["The total amount is: "
 deposit :: User -> Deposit -> LogStr
 deposit u d = toLogStr . join $ [username u, " deposits ", depositMsg d]
 
-logStrCata ls lb l = case l of
-  LS x -> ls x
-  LB x -> lb x
-
-logLine :: UTCTime -> LogStr -> LogStr
-logLine time = logStrCata string byteString
-  where
-    t = show time
-    string     x = LS $ concat ["[", t, "] ", x, "\n"]
-    byteString x = LB $ BS.concat ["[", BS.pack t, "] ", x, "\n"]
-
 -- Logs the given log message attaching the actual time-stamp and the newline character
 -- at the end of the string
-log :: Logger -> [LogStr] -> IO ()
+log :: LoggerSet -> [LogStr] -> IO ()
 log logger lines = do
   now <- getCurrentTime
-  loggerPutStr logger (map (logLine now) lines)
+  forM_ lines $ \line -> do
+    pushLogStr logger . toLogStr $ concat ["[", show now, "] "]
+    pushLogStr logger line
+    pushLogStr logger $ toLogStr ("\n" :: String)
 
 -- Logs a single line log message attaching the actual time-stamp and the newline character
 -- at the end of the string
-log' :: Logger -> LogStr -> IO ()
+log' :: LoggerSet -> LogStr -> IO ()
 log' l m = log l [m]
